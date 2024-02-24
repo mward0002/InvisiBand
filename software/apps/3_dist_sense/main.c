@@ -46,16 +46,14 @@ static uint32_t measure_dist1(void){
     nrf_gpio_pin_write(TRIG1, 1);
     nrf_delay_us(10);
     nrf_gpio_pin_write(TRIG1, 0);
-    printf("trig sent \n");
 
     while(nrf_gpio_pin_read(ECHO1) == 0);
     start_time = nrfx_timer_capture(&TIMER4, NRF_TIMER_CC_CHANNEL0);
-    printf("inital start for echo \n");
     
     while(nrf_gpio_pin_read(ECHO1) == 1);
-    duration = nrfx_timer_capture(&TIMER4, NRF_TIMER_CC_CHANNEL1) - start_time;
+    duration = nrfx_timer_capture(&TIMER4, NRF_TIMER_CC_CHANNEL0) - start_time;
     //printf("duration: %ld \n", duration);
-    printf("echo done \n");
+
 
     distance = (duration / 58);
 
@@ -71,10 +69,10 @@ static uint32_t measure_dist2(void){
     nrf_gpio_pin_write(TRIG2, 0);
 
     while(nrf_gpio_pin_read(ECHO2) == 0);
-    start_time = nrfx_timer_capture(&TIMER4, NRF_TIMER_CC_CHANNEL2);
+    start_time = nrfx_timer_capture(&TIMER4, NRF_TIMER_CC_CHANNEL1);
     
     while(nrf_gpio_pin_read(ECHO2) == 1);
-    duration = nrfx_timer_capture(&TIMER4, NRF_TIMER_CC_CHANNEL3) - start_time;
+    duration = nrfx_timer_capture(&TIMER4, NRF_TIMER_CC_CHANNEL1) - start_time;
     //printf("duration: %ld \n", duration);
 
     distance = (duration / 58);
@@ -91,10 +89,10 @@ static uint32_t measure_dist3(void){
     nrf_gpio_pin_write(TRIG3, 0);
 
     while(nrf_gpio_pin_read(ECHO3) == 0);
-    start_time = nrfx_timer_capture(&TIMER4, NRF_TIMER_CC_CHANNEL4);
+    start_time = nrfx_timer_capture(&TIMER4, NRF_TIMER_CC_CHANNEL2);
     
     while(nrf_gpio_pin_read(ECHO3) == 1);
-    duration = nrfx_timer_capture(&TIMER4, NRF_TIMER_CC_CHANNEL5) - start_time;
+    duration = nrfx_timer_capture(&TIMER4, NRF_TIMER_CC_CHANNEL2) - start_time;
     //printf("duration: %ld \n", duration);
 
     distance = (duration / 58);
@@ -131,7 +129,7 @@ static void timer_init(void) {
   nrfx_timer_enable(&TIMER4);
   //nrfx_timer_enable(&TIMER3);
   //nrfx_timer_enable(&TIMER2);
-  printf("timier inti \n");
+  printf("timer init \n");
 }
 
 
@@ -146,15 +144,12 @@ int main(void) {
   // loop forever
   while (1) {
     // Don't put any code in here. Instead put periodic code in `sample_timer_callback()`
-    printf("in while loop");
+    //printf("in while loop \n");
     uint32_t distance1 = measure_dist1();
-    printf("distance1 gotten");
     uint32_t distance2 = measure_dist2();
-    printf("distance2 gotten");
     uint32_t distance3 = measure_dist3();
-    printf("distance3 gotten");
     if ((distance1 < 10) && (distance2 >= 10) && (distance3 >= 10)){
-        printf("Distance Sense 1: %ld cm \n)", distance1);
+            printf("Distance Sense 1: %ld cm \n", distance1);
         nrf_delay_ms(1000);
     }
     else if (distance2 < 10 && distance1 >= 10 && distance3 >= 10)
