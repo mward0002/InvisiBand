@@ -55,7 +55,7 @@ void stop_tone() {
 int main(void) {
     printf("Board started!\n");
 
-    pwm_init(EDGE_P0);
+    pwm_init(EDGE_P2);
 
     printf("Playing an A\n");
 
