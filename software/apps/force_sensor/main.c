@@ -19,7 +19,7 @@
 
 // Global variables
 // APP_TIMER_DEF(sample_timer);
-const float VCC = 4.93;
+const float VCC = 3.30;
 const float R_DIV = 10000.0;
 static nrfx_timer_t TIMER4 = NRFX_TIMER_INSTANCE(0);
 
