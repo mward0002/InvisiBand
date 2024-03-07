@@ -78,7 +78,7 @@ static void timer_init(void) {
   printf("timer has started");
 }
 
-int hr_sc04_init(void){
+void hr_sc04_init(void){
     timer_init();
 }
 
