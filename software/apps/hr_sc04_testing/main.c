@@ -14,8 +14,6 @@
 #include "microbit_v2.h"
 
 
-#define TRIG EDGE_P5
-#define ECHO EDGE_P6
 
 // Global variables
 // APP_TIMER_DEF(sample_timer);
@@ -32,19 +30,22 @@ void timer_event_handler(nrf_timer_event_t event_type, void* p_context) {
 }
 
 
-static uint32_t measure_dist(void){
+
+
+//measure dist with trig, echo, and timer_channel passed in
+static uint32_t measure_dist(uint32_t trig, uint32_t echo, nrf_timer_cc_channel_t timer_channel){
     uint32_t distance;
     uint32_t duration = 0;
 
-    nrf_gpio_pin_write(TRIG, 1);
+    nrf_gpio_pin_write(trig, 1);
     nrf_delay_us(10);
-    nrf_gpio_pin_write(TRIG, 0);
+    nrf_gpio_pin_write(trig, 0);
 
-    while(nrf_gpio_pin_read(ECHO) == 0);
-    start_time = nrfx_timer_capture(&TIMER4, NRF_TIMER_CC_CHANNEL0);
+    while(nrf_gpio_pin_read(echo) == 0);
+    start_time = nrfx_timer_capture(&TIMER4, timer_channel);
     
-    while(nrf_gpio_pin_read(ECHO) == 1);
-    duration = nrfx_timer_capture(&TIMER4, NRF_TIMER_CC_CHANNEL1) - start_time;
+    while(nrf_gpio_pin_read(echo) == 1);
+    duration = nrfx_timer_capture(&TIMER4, timer_channel) - start_time;
     printf("duration: %ld \n", duration);
 
     distance = (duration / 58);
@@ -52,12 +53,12 @@ static uint32_t measure_dist(void){
     return distance;
 }
 
-
-static void gpio_init(void) {
+//Initialize a trig and echo
+static void gpio_edge_init(uint32_t trig, uint32_t echo) {
   // Initialize pins
-  nrf_gpio_cfg_output(TRIG);
-  nrf_gpio_cfg_input(ECHO, NRF_GPIO_PIN_NOPULL);
-  nrf_gpio_pin_clear(TRIG);
+  nrf_gpio_cfg_output(trig);
+  nrf_gpio_cfg_input(echo, NRF_GPIO_PIN_NOPULL);
+  nrf_gpio_pin_clear(trig);
 
 }
 
@@ -77,24 +78,26 @@ static void timer_init(void) {
   printf("timer has started");
 }
 
+int hr_sc04_init(void){
+    timer_init();
+}
 
-
-int main(void) {
-  printf("Board started!\n");
+//int main(void) {
+//  printf("Board started!\n");
   
-  gpio_init();
-  timer_init();
+//  gpio_init();
+//  timer_init();
 
 
   // loop forever
-  while (1) {
+//  while (1) {
     // Don't put any code in here. Instead put periodic code in `sample_timer_callback()`
-    uint32_t distance = measure_dist();
-    printf("Distance: %ld cm \n", distance);
-    nrf_delay_ms(1000);
+//    uint32_t distance = measure_dist();
+//    printf("Distance: %ld cm \n", distance);
+//    nrf_delay_ms(1000);
 
-  }
-}
+//  }
+//}
 // static volatile uint32_t start_time;
 // static volatile uint32_t duration;
 
