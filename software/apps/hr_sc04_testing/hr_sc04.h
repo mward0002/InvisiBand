@@ -2,13 +2,11 @@
 
 #include <stdbool.h>
 
-// Starts continuously measuring capacitive touch for the logo
-// Function returns immediately without blocking
-void capacitive_touch_init(void);
+//Measures Distance given a trig edge, echo edge, and a timer channel
+static uint32_t measure_dist(uint32_t trig, uint32_t echo, nrf_timer_cc_channel_t timer_channel);
 
-// Determines whether the logo is being touched
-//	True means the logo is being touched
-//	False means the logo is not being touched
-//
-// Function returns immediately without blocking
-bool capacitive_touch_is_active(void);
+//inits a trig and echo edge
+static void gpio_edge_init(uint32_t trig, uint32_t echo);
+
+//init
+void hr_sc04_init(void);
