@@ -14,8 +14,6 @@
 #include "microbit_v2.h"
 
 
-#define TRIG EDGE_P5
-#define ECHO EDGE_P6
 
 // Global variables
 // APP_TIMER_DEF(sample_timer);
@@ -55,12 +53,12 @@ static uint32_t measure_dist(uint32_t trig, uint32_t echo, nrf_timer_cc_channel_
     return distance;
 }
 
-
-static void gpio_init(void) {
+//Initialize a trig and echo
+static void gpio_edge_init(uint32_t trig, uint32_t echo) {
   // Initialize pins
-  nrf_gpio_cfg_output(TRIG);
-  nrf_gpio_cfg_input(ECHO, NRF_GPIO_PIN_NOPULL);
-  nrf_gpio_pin_clear(TRIG);
+  nrf_gpio_cfg_output(trig);
+  nrf_gpio_cfg_input(echo, NRF_GPIO_PIN_NOPULL);
+  nrf_gpio_pin_clear(trig);
 
 }
 
@@ -81,7 +79,6 @@ static void timer_init(void) {
 }
 
 int hr_sc04_init(void){
-    gpio_init();
     timer_init();
 }
 
