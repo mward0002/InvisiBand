@@ -13,7 +13,7 @@
 
 #include "microbit_v2.h"
 
-
+#include "hr_sc04.h"
 
 // Global variables
 // APP_TIMER_DEF(sample_timer);
