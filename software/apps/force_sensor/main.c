@@ -1,9 +1,8 @@
-// HR_SC04 Testing
-
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <math.h>
+
 
 #include "app_timer.h"
 #include "nrf_delay.h"
@@ -14,90 +13,139 @@
 #include "microbit_v2.h"
 
 
-#define RES EDGE_P4 
+#define RES NRF_SAADC_INPUT_AIN1 // Assuming the FSR is connected to pin P0.03
+#define ADC_PAD_CHANNEL 0
 
 
 // Global variables
 // APP_TIMER_DEF(sample_timer);
-const float VCC = 3.30;
+const float VCC = 3.60;
 const float R_DIV = 10000.0;
 static nrfx_timer_t TIMER4 = NRFX_TIMER_INSTANCE(0);
 
+
 // Function prototypes
 static void gpio_init(void);
-static void timer_init(void); 
+static void timer_init(void);
+static void adc_init(void);
+static float adc_sample_blocking(uint8_t channel);
+
 
 static uint32_t start_time;
 
-void timer_event_handler(nrf_timer_event_t event_type, void* p_context) {
-    // Not used, but required for timer initialization
-}
 
+void timer_event_handler(nrf_timer_event_t event_type, void* p_context) {
+   // Not used, but required for timer initialization
+}
+  
 
 static uint32_t measure_force(void){
-    int fsrADC = nrf_gpio_pin_read(RES);
-    float force;
-    if (fsrADC != 0) {
-	float frsV = fsrADC * VCC / 1023.0;
+   printf("Measuring force...\n");
+   int fsrADC = adc_sample_blocking(0); // Assuming FSR is connected to ADC channel 0
+   printf("FSR ADC value: %d\n", fsrADC);
+   float force;
+   if (fsrADC != 0) {
+       float fsrV = fsrADC * VCC / 4095.0;
+       float fsrR = R_DIV * (VCC / fsrV - 1.0);
+       printf("Resistance : %.2f\n", fsrR);
+       float fsrG = 1.0 / fsrR;
 
-	float fsrR = R_DIV * (VCC/ fsrV - 1.0);
 
-	printf("Resistance : %d\n", fsrR);
+       if (fsrR <= 600){
+           force = (fsrG - 0.00075) / 0.00000032639;
+       }
+       else{
+           force = fsrG / 0.000000642857;
+       }
+       printf("Force : %.2f g\n", force);
+   }
 
-	float fsrG = 1.0 / fsrR;
 
-	if (fsrR <= 600){
-	    force = (fsrG - 0.00075) / 0.00000032639;
-	}
-	else{
-	    force = fsrG / 0.000000642857;
-	}
-	printf("Force : %d g\n", force);
-    
-    }
-
-    return force;
+   return force;
 }
 
 
 static void gpio_init(void) {
-  // Initialize pins
-  nrf_gpio_cfg_input(RES, NRF_GPIO_PIN_NOPULL);
-
+   // Initialize pins
+   //nrf_gpio_cfg_input(RES, NRF_GPIO_PIN_NOPULL);
+   //nrf_gpio_pin_clear(RES);
 }
 
-static void timer_init(void) {
-  nrfx_timer_config_t timer_config = {
-      .frequency = NRF_TIMER_FREQ_1MHz,
-      .mode = NRF_TIMER_MODE_TIMER,
-      .bit_width = NRF_TIMER_BIT_WIDTH_32,
-      .interrupt_priority = 0,
-      .p_context = NULL
-  };
-  nrfx_timer_init(&TIMER4, &timer_config, timer_event_handler);
-  printf("timer is initialized");
 
-  // Start Timer4
-  nrfx_timer_enable(&TIMER4);
-  printf("timer has started");
+static void timer_init(void) {
+   nrfx_timer_config_t timer_config = {
+       .frequency = NRF_TIMER_FREQ_1MHz,
+       .mode = NRF_TIMER_MODE_TIMER,
+       .bit_width = NRF_TIMER_BIT_WIDTH_32,
+       .interrupt_priority = 0,
+       .p_context = NULL
+   };
+   nrfx_timer_init(&TIMER4, &timer_config, timer_event_handler);
+
+
+   // Start Timer4
+   nrfx_timer_enable(&TIMER4);
+}
+
+
+static void saadc_event_callback(nrfx_saadc_evt_t const* _unused) {
+ // don't care about saadc events
+ // ignore this function
+}
+
+
+
+
+static void adc_init(void) {
+   // Initialize the SAADC
+   nrfx_saadc_config_t saadc_config = {
+       .resolution = NRF_SAADC_RESOLUTION_12BIT,
+       .oversample = NRF_SAADC_OVERSAMPLE_DISABLED,
+       .interrupt_priority = 4,
+       .low_power_mode = false,
+   };
+   ret_code_t error_code = nrfx_saadc_init(&saadc_config, saadc_event_callback); // No callback function needed for now
+   APP_ERROR_CHECK(error_code);
+
+
+   // Initialize FSR channel
+   nrf_saadc_channel_config_t pad_channel_config = NRFX_SAADC_DEFAULT_CHANNEL_CONFIG_SE(RES);
+   error_code = nrfx_saadc_channel_init(ADC_PAD_CHANNEL, &pad_channel_config);
+   APP_ERROR_CHECK(error_code);
+}
+
+
+static float adc_sample_blocking(uint8_t channel) {
+   // read ADC counts (0-4095)
+   // this function blocks until the sample is ready
+   int16_t adc_counts = 0;
+   ret_code_t error_code = nrfx_saadc_sample_convert(channel, &adc_counts);
+   APP_ERROR_CHECK(error_code);
+
+
+   return adc_counts;
 }
 
 
 
 int main(void) {
-  printf("Board started!\n");
-  
-  gpio_init();
-  timer_init();
+   printf("Board started!\n");
+    gpio_init();
+   timer_init();
 
 
-  // loop forever
-  while (1) {
-    // Don't put any code in here. Instead put periodic code in `sample_timer_callback()`
-    uint32_t force = measure_force();
-    nrf_delay_ms(1000);
-  }
+   // initialize ADC
+   adc_init();
+
+
+   // loop forever
+   while (1) {
+       // Don't put any code in here. Instead put periodic code in `sample_timer_callback()`
+       uint32_t force = measure_force();
+       nrf_delay_ms(1000);
+   }
 }
+
 // static volatile uint32_t start_time;
 // static volatile uint32_t duration;
 
