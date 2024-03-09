@@ -39,67 +39,6 @@ void timer_event_handler(nrf_timer_event_t event_type, void* p_context) {
 }
 
 
-static uint32_t measure_dist1(void){
-    uint32_t distance;
-    uint32_t duration = 0;
-
-    nrf_gpio_pin_write(TRIG1, 1);
-    nrf_delay_us(10);
-    nrf_gpio_pin_write(TRIG1, 0);
-
-    while(nrf_gpio_pin_read(ECHO1) == 0);
-    start_time = nrfx_timer_capture(&TIMER4, NRF_TIMER_CC_CHANNEL0);
-    
-    while(nrf_gpio_pin_read(ECHO1) == 1);
-    duration = nrfx_timer_capture(&TIMER4, NRF_TIMER_CC_CHANNEL0) - start_time;
-    //printf("duration: %ld \n", duration);
-
-
-    distance = (duration / 58);
-
-    return distance;
-}
-
-static uint32_t measure_dist2(void){
-    uint32_t distance;
-    uint32_t duration = 0;
-
-    nrf_gpio_pin_write(TRIG2, 1);
-    nrf_delay_us(10);
-    nrf_gpio_pin_write(TRIG2, 0);
-
-    while(nrf_gpio_pin_read(ECHO2) == 0);
-    start_time = nrfx_timer_capture(&TIMER4, NRF_TIMER_CC_CHANNEL1);
-    
-    while(nrf_gpio_pin_read(ECHO2) == 1);
-    duration = nrfx_timer_capture(&TIMER4, NRF_TIMER_CC_CHANNEL1) - start_time;
-    //printf("duration: %ld \n", duration);
-
-    distance = (duration / 58);
-
-    return distance;
-}
-
-static uint32_t measure_dist3(void){
-    uint32_t distance;
-    uint32_t duration = 0;
-
-    nrf_gpio_pin_write(TRIG3, 1);
-    nrf_delay_us(10);
-    nrf_gpio_pin_write(TRIG3, 0);
-
-    while(nrf_gpio_pin_read(ECHO3) == 0);
-    start_time = nrfx_timer_capture(&TIMER4, NRF_TIMER_CC_CHANNEL2);
-    
-    while(nrf_gpio_pin_read(ECHO3) == 1);
-    duration = nrfx_timer_capture(&TIMER4, NRF_TIMER_CC_CHANNEL2) - start_time;
-    //printf("duration: %ld \n", duration);
-
-    distance = (duration / 58);
-
-    return distance;
-}
-
 static void gpio_init(void) {
   // Initialize pins
   gpio_edge_init(TRIG1, ECHO1);
@@ -107,24 +46,7 @@ static void gpio_init(void) {
   gpio_edge_init(TRIG3, ECHO3);
 }
 
-static void timer_init(void) {
-  nrfx_timer_config_t timer_config = {
-      .frequency = NRF_TIMER_FREQ_1MHz,
-      .mode = NRF_TIMER_MODE_TIMER,
-      .bit_width = NRF_TIMER_BIT_WIDTH_32,
-      .interrupt_priority = 0,
-      .p_context = NULL
-  };
-  nrfx_timer_init(&TIMER4, &timer_config, timer_event_handler);
-  //nrfx_timer_init(&TIMER3, &timer_config, timer_event_handler);
-  //nrfx_timer_init(&TIMER2, &timer_config, timer_event_handler);
 
-  // Start Timer4
-  nrfx_timer_enable(&TIMER4);
-  //nrfx_timer_enable(&TIMER3);
-  //nrfx_timer_enable(&TIMER2);
-  printf("timer init \n");
-}
 
 
 
@@ -132,7 +54,6 @@ int main(void) {
   printf("Board started!\n");
   
   gpio_init();
-  timer_init();
   hr_sc04_init();
 
 
