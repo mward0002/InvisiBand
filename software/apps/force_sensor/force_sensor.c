@@ -8,7 +8,7 @@
 #include "nrf_delay.h"
 #include "nrfx_saadc.h"
 #include "nrfx_timer.h"
-
+#
 
 #include "microbit_v2.h"
 
@@ -39,7 +39,7 @@ void timer_event_handler(nrf_timer_event_t event_type, void* p_context) {
 }
   
 
-static uint32_t measure_force(void){
+ uint32_t measure_force(void){
    printf("Measuring force...\n");
    int fsrADC = adc_sample_blocking(0); // Assuming FSR is connected to ADC channel 0
    printf("FSR ADC value: %d\n", fsrADC);
