@@ -54,7 +54,7 @@ int main(void) {
   hr_sc04_init();
   pwm_init(SOUND_PIN);
 
-  uint32_t tones1[] = [440, 493, 523];
+  uint32_t tones1[] = {440, 493, 523};
   // loop forever
   while (1) {
     // Don't put any code in here. Instead put periodic code in `sample_timer_callback()`
