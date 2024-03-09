@@ -59,7 +59,10 @@ static uint32_t measure_force(void){
        }
        printf("Force : %.2f g\n", force);
    }
-
+   if (force < 25){
+      force = 0;
+   }
+   force = force / 32;
 
    return force;
 }
