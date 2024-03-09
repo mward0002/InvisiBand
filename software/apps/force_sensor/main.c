@@ -57,13 +57,13 @@ static uint32_t measure_force(void){
        else{
            force = fsrG / 0.000000642857;
        }
-       printf("Force : %.2f g\n", force);
+       
    }
    if (force < 25){
       force = 0;
    }
    force = force / 32;
-
+   printf("scalar : %.2f g\n", force);
    return force;
 }
 
