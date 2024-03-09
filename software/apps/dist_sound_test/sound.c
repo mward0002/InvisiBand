@@ -13,6 +13,22 @@ nrf_pwm_sequence_t pwm_sequence = {
     .end_delay = 0,
 };
 
+void pwm_init(uint32_t output_pin) {
+    nrfx_pwm_config_t config0 = {
+        .output_pins[0] = output_pin,
+        .output_pins[1] = NRFX_PWM_PIN_NOT_USED,
+        .output_pins[2] = NRFX_PWM_PIN_NOT_USED,
+        .output_pins[3] = NRFX_PWM_PIN_NOT_USED,
+        .base_clock = NRF_PWM_CLK_1MHz,
+        .count_mode = NRF_PWM_MODE_UP,
+        .top_value = 1000,
+        .load_mode = NRF_PWM_LOAD_COMMON,
+        .step_mode = NRF_PWM_STEP_AUTO
+    };
+
+    nrfx_pwm_init(&speaker_pwm, &config0, NULL);
+}
+
 void play_tone(uint32_t freq[], uint8_t num_frequencies, uint32_t max_dist, uint32_t dist, uint8_t volume) {
 
     nrfx_pwm_stop(&speaker_pwm, true);
