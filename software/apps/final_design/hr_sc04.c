@@ -33,7 +33,7 @@ void timer_event_handler(nrf_timer_event_t event_type, void* p_context) {
 
 
 //measure dist with trig, echo, and timer_channel passed in
- uint32_t measure_dist(uint32_t trig, uint32_t echo, nrf_timer_cc_channel_t timer_channel){
+ uint32_t hr_sc04_measure_dist(uint32_t trig, uint32_t echo, nrf_timer_cc_channel_t timer_channel){
     uint32_t distance;
     uint32_t duration = 0;
 
