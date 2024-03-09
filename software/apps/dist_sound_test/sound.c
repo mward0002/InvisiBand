@@ -1,16 +1,4 @@
-#include <stdbool.h>
-#include <stdint.h>
-#include <stdio.h>
-#include <math.h>
-
-#include "nrf.h"
-#include "nrf_delay.h"
-#include "nrfx_pwm.h"
-#include "app_timer.h"
-#include "nrfx_saadc.h"
-#include "nrfx_timer.h"
-
-#include "microbit_v2.h"
+#include "sound.h"
 
 #define SOUND_PIN EDGE_P2
 
@@ -25,8 +13,7 @@ nrf_pwm_sequence_t pwm_sequence = {
     .end_delay = 0,
 };
 
-void play_tone(uint32_t freq[], uint32_t max_dist, uint32_t dist, uint8_t volume) {
-    size_t num_frequencies = sizeof(freq) / sizeof(freq[0]);
+void play_tone(uint32_t freq[], uint8_t num_frequencies, uint32_t max_dist, uint32_t dist, uint8_t volume) {
 
     nrfx_pwm_stop(&speaker_pwm, true);
 
