@@ -54,12 +54,13 @@ int main(void) {
   hr_sc04_init();
   pwm_init(SOUND_PIN);
 
-  uint32_t tones1[] = {440, 493, 523};
+  uint32_t tones1[] = [440, 493, 523];
   // loop forever
   while (1) {
     // Don't put any code in here. Instead put periodic code in `sample_timer_callback()`
     //printf("in while loop \n");
     uint32_t distance1 = hr_sc04_measure_dist(TRIG1, ECHO1, NRF_TIMER_CC_CHANNEL0);
+    /*
     uint32_t distance2 = hr_sc04_measure_dist(TRIG2, ECHO2, NRF_TIMER_CC_CHANNEL1);
     uint32_t distance3 = hr_sc04_measure_dist(TRIG3, ECHO3, NRF_TIMER_CC_CHANNEL2);
     if ((distance1 < 10) && (distance2 >= 10) && (distance3 >= 10)){
@@ -94,7 +95,7 @@ int main(void) {
     else {
         nrf_delay_ms(50);
     }
-
+    */
     play_tone(tones1, 3, 10, distance1, 50);
     nrf_delay_ms(50);
   }
