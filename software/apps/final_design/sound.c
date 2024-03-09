@@ -25,6 +25,7 @@ void pwm_init(uint32_t output_pin) {
     };
 
     nrfx_pwm_init(&speaker_pwm, &config0, NULL);
+    printf("pwm initialized\n");
 }
 
 void play_tone(uint32_t freq[], uint8_t num_frequencies, uint32_t max_dist, uint32_t dist, uint8_t volume) {
@@ -44,6 +45,7 @@ void play_tone(uint32_t freq[], uint8_t num_frequencies, uint32_t max_dist, uint
 
     sequence_data[0] = duty_cycle;
     nrfx_pwm_simple_playback(&speaker_pwm, &pwm_sequence, 1, NRFX_PWM_FLAG_LOOP);
+    printf("tone played: %d\n", freq[freq_index]);
 }
 
 void stop_tone(void) {
