@@ -94,9 +94,8 @@ int main(void) {
     else {
         nrf_delay_ms(50);
     }
+    play_tone([440, 493, 523], 3, 10, distance1, 50);
     nrf_delay_ms(50);
-    
-
   }
 }
 
