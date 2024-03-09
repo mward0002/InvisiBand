@@ -10,6 +10,7 @@
 #include "nrfx_saadc.h"
 #include "nrfx_timer.h"
 #include "hr_sc04.h"
+#include "sound.h"
 
 #include "microbit_v2.h"
 
@@ -51,6 +52,7 @@ int main(void) {
   
   gpio_init_main();
   hr_sc04_init();
+  pwm_init(SOUND_PIN);
 
 
   // loop forever
