@@ -29,17 +29,13 @@ static nrfx_timer_t TIMER4 = NRFX_TIMER_INSTANCE(0);
 //static nrfx_timer_t TIMER2 = NRFX_TIMER_INSTANCE(2);
 
 // Function prototypes
-static void gpio_init(void);
-static void timer_init(void); 
-
-static uint32_t start_time;
-
-void timer_event_handler(nrf_timer_event_t event_type, void* p_context) {
-    // Not used, but required for timer initialization
-}
+static void gpio_init_main(void);
 
 
-static void gpio_init(void) {
+
+
+
+static void gpio_init_main(void) {
   // Initialize pins
   gpio_edge_init(TRIG1, ECHO1);
   gpio_edge_init(TRIG2, ECHO2);
@@ -53,7 +49,7 @@ static void gpio_init(void) {
 int main(void) {
   printf("Board started!\n");
   
-  gpio_init();
+  gpio_init_main();
   hr_sc04_init();
 
 
