@@ -57,8 +57,8 @@ int main(void) {
   while (1) {
     // Don't put any code in here. Instead put periodic code in `sample_timer_callback()`
     //printf("in while loop \n");
-    uint32_t distance1 = measure_dist(TRIG1, ECHO1, NRF_TIMER_CC_CHANNEL0);
-    uint32_t distance2 = measure_dist(TRIG2, ECHO2, NRF_TIMER_CC_CHANNEL1);
+    uint32_t distance1 = hr_sc04_measure_dist(TRIG1, ECHO1, NRF_TIMER_CC_CHANNEL0);
+    uint32_t distance2 = hr_sc04_measure_dist(TRIG2, ECHO2, NRF_TIMER_CC_CHANNEL1);
     if ((distance1 < 10) && (distance2 >= 10)){
             printf("Distance Sense 1: %ld cm \n", distance1);
         nrf_delay_ms(1000);
