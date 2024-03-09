@@ -9,7 +9,7 @@
 #include "nrf_delay.h"
 #include "nrfx_saadc.h"
 #include "nrfx_timer.h"
-
+#include "hr_sc04.h"
 
 #include "microbit_v2.h"
 
@@ -102,15 +102,9 @@ static uint32_t measure_dist3(void){
 
 static void gpio_init(void) {
   // Initialize pins
-  nrf_gpio_cfg_output(TRIG1);
-  nrf_gpio_cfg_input(ECHO1, NRF_GPIO_PIN_NOPULL);
-  nrf_gpio_pin_clear(TRIG1);
-  nrf_gpio_cfg_output(TRIG2);
-  nrf_gpio_cfg_input(ECHO2, NRF_GPIO_PIN_NOPULL);
-  nrf_gpio_pin_clear(TRIG2);
-  nrf_gpio_cfg_output(TRIG3);
-  nrf_gpio_cfg_input(ECHO3, NRF_GPIO_PIN_NOPULL);
-  nrf_gpio_pin_clear(TRIG3);
+  gpio_edge_init(TRIG1, ECHO1);
+  gpio_edge_init(TRIG2, ECHO2);
+  gpio_edge_init(TRIG3, ECHO3);
 }
 
 static void timer_init(void) {
@@ -139,15 +133,16 @@ int main(void) {
   
   gpio_init();
   timer_init();
+  hr_sc04_init();
 
 
   // loop forever
   while (1) {
     // Don't put any code in here. Instead put periodic code in `sample_timer_callback()`
     //printf("in while loop \n");
-    uint32_t distance1 = measure_dist1();
-    uint32_t distance2 = measure_dist2();
-    uint32_t distance3 = measure_dist3();
+    uint32_t distance1 = measure_dist(TRIG1, ECHO1, NRF_TIMER_CC_CHANNEL0);
+    uint32_t distance2 = measure_dist(TRIG2, ECHO2, NRF_TIMER_CC_CHANNEL1);
+    uint32_t distance3 = measure_dist(TRIG3, ECHO3, NRF_TIMER_CC_CHANNEL2);
     if ((distance1 < 10) && (distance2 >= 10) && (distance3 >= 10)){
             printf("Distance Sense 1: %ld cm \n", distance1);
         nrf_delay_ms(1000);
