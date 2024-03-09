@@ -12,6 +12,8 @@
 
 #include "microbit_v2.h"
 
+#define SOUND_PIN EDGE_P2
+
 // pwm_init() -- initializes the pwm module
 void pwm_init(uint32_t output_pin);
 

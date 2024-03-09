@@ -1,7 +1,5 @@
 #include "sound.h"
 
-#define SOUND_PIN EDGE_P2
-
 static const nrfx_pwm_t speaker_pwm = NRFX_PWM_INSTANCE(0);
 
 nrf_pwm_values_common_t sequence_data[1] = {0};
