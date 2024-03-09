@@ -8,7 +8,7 @@
 #include "nrf_delay.h"
 #include "nrfx_saadc.h"
 #include "nrfx_timer.h"
-#
+#include "force_sensor.h"
 
 #include "microbit_v2.h"
 
@@ -34,7 +34,7 @@ static float adc_sample_blocking(uint8_t channel);
 static uint32_t start_time;
 
 
-void timer_event_handler(nrf_timer_event_t event_type, void* p_context) {
+void timer_event_handler_one(nrf_timer_event_t event_type, void* p_context) {
    // Not used, but required for timer initialization
 }
   
@@ -68,11 +68,7 @@ void timer_event_handler(nrf_timer_event_t event_type, void* p_context) {
 }
 
 
-static void gpio_init(void) {
-   // Initialize pins
-   //nrf_gpio_cfg_input(RES, NRF_GPIO_PIN_NOPULL);
-   //nrf_gpio_pin_clear(RES);
-}
+
 
 
 static void timer_init(void) {
@@ -83,7 +79,7 @@ static void timer_init(void) {
        .interrupt_priority = 0,
        .p_context = NULL
    };
-   nrfx_timer_init(&TIMER4, &timer_config, timer_event_handler);
+   nrfx_timer_init(&TIMER4, &timer_config, timer_event_handler_one);
 
 
    // Start Timer4
@@ -129,25 +125,12 @@ static float adc_sample_blocking(uint8_t channel) {
    return adc_counts;
 }
 
-
-
-int main(void) {
-   printf("Board started!\n");
-    gpio_init();
+void force_sensor_init(void){
    timer_init();
-
-
-   // initialize ADC
    adc_init();
-
-
-   // loop forever
-   while (1) {
-       // Don't put any code in here. Instead put periodic code in `sample_timer_callback()`
-       uint32_t force = measure_force();
-       nrf_delay_ms(1000);
-   }
 }
+
+
 
 // static volatile uint32_t start_time;
 // static volatile uint32_t duration;
