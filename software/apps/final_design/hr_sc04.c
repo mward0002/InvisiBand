@@ -46,7 +46,6 @@ void timer_event_handler(nrf_timer_event_t event_type, void* p_context) {
     
     while(nrf_gpio_pin_read(echo) == 1);
     duration = nrfx_timer_capture(&TIMER4, timer_channel) - start_time;
-    printf("duration: %ld \n", duration);
 
     distance = (duration / 58);
 
