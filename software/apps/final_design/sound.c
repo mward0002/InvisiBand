@@ -30,8 +30,6 @@ void pwm_init(uint32_t output_pin) {
 
 void play_tone(uint32_t freq[], uint8_t num_frequencies, uint32_t max_dist, uint32_t dist, uint8_t volume) {
 
-    nrfx_pwm_stop(&speaker_pwm, true);
-
     if (dist > max_dist) {
         return;
     }
