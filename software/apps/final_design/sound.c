@@ -28,7 +28,7 @@ void pwm_init(uint32_t output_pin) {
     printf("pwm initialized\n");
 }
 
-void play_tone(uint32_t freq[], uint8_t num_frequencies, uint32_t max_dist, uint32_t dist, uint8_t volume) {
+void play_tone(uint32_t freq[], uint8_t num_frequencies, uint32_t bias, uint32_t max_dist, uint32_t dist, uint8_t volume) {
 
     if (dist > max_dist) {
         return;
@@ -36,7 +36,7 @@ void play_tone(uint32_t freq[], uint8_t num_frequencies, uint32_t max_dist, uint
 
     uint32_t freq_index = (num_frequencies * dist) / max_dist;
 
-    uint32_t countertop = 1000000 / freq[freq_index];
+    uint32_t countertop = 1000000 / (freq[freq_index] + bias);
     NRF_PWM0->COUNTERTOP = countertop;
 
     uint32_t duty_cycle = ((countertop / 2) * volume) / 100;

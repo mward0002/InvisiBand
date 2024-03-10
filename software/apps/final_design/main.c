@@ -107,10 +107,10 @@ int main(void) {
     // }
     measure_force();
     stop_tone();
-    play_tone(tones1, 2, 16, distance1, 50);
-    play_tone(tones2, 2, 16, distance2, 50);
-    play_tone(tones3, 2, 16, distance3, 50);
-    play_tone(tones4, 2, 16, distance4, 50);
+    play_tone(tones1, 2, bias, 16, distance1, 50);
+    play_tone(tones2, 2, bias, 16, distance2, 50);
+    play_tone(tones3, 2, bias, 16, distance3, 50);
+    play_tone(tones4, 2, bias, 16, distance4, 50);
     nrf_delay_ms(400);
   }
 }

@@ -18,7 +18,7 @@
 void pwm_init(uint32_t output_pin);
 
 // play_tone() -- plays a tone from the freq[] array at a given volume depending on the distance compared to max_dist
-void play_tone(uint32_t freq[], uint8_t num_frequencies, uint32_t max_dist, uint32_t dist, uint8_t volume);
+void play_tone(uint32_t freq[], uint8_t num_frequencies, uint32_t bias, uint32_t max_dist, uint32_t dist, uint8_t volume);
 
 // stop_tone() -- stops the tone being played
 void stop_tone(void);
