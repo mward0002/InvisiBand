@@ -9,8 +9,10 @@
 #include "nrf_delay.h"
 #include "nrfx_saadc.h"
 #include "nrfx_timer.h"
+
 #include "hr_sc04.h"
 #include "sound.h"
+#include "force_sensor.h"
 
 #include "microbit_v2.h"
 
@@ -55,6 +57,7 @@ int main(void) {
   
   gpio_init_main();
   hr_sc04_init();
+  force_sensor_init();
   pwm_init(SOUND_PIN);
 
   uint32_t tones1[] = {440, 493};
@@ -102,6 +105,7 @@ int main(void) {
     //     printf("Distance Sense 1 2 and 3 together \n");
     //     nrf_delay_ms(50);
     // }
+    measure_force();
     stop_tone();
     play_tone(tones1, 2, 16, distance1, 50);
     play_tone(tones2, 2, 16, distance2, 50);
