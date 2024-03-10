@@ -86,7 +86,7 @@ uint32_t measure_force(void) {
             force = fsrG / 0.000000642857;
         }
     }
-    if (force < 25) {
+    if (force < 5) {
         force = 0;
     }
     force = force / 32;
