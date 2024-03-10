@@ -64,6 +64,8 @@ int main(void) {
   uint32_t tones2[] = {349, 391};
   uint32_t tones3[] = {293, 329};
   uint32_t tones4[] = {246, 261};
+
+  uint32_t bias = 0;
   // loop forever
   while (1) {
     // Don't put any code in here. Instead put periodic code in `sample_timer_callback()`
@@ -105,7 +107,7 @@ int main(void) {
     //     printf("Distance Sense 1 2 and 3 together \n");
     //     nrf_delay_ms(50);
     // }
-    measure_force();
+    bias = measure_force();
     stop_tone();
     play_tone(tones1, 2, bias, 16, distance1, 50);
     play_tone(tones2, 2, bias, 16, distance2, 50);
