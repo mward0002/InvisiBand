@@ -30,6 +30,10 @@ void force_sensor_init(void) {
 static void timer_event_handler_one(nrf_timer_event_t event_type, void* p_context) {
     // Not used, but required for timer initialization
 }
+static void saadc_event_callback(nrfx_saadc_evt_t const* _unused) {
+ // don't care about saadc events
+ // ignore this function
+}
 
 static void timer_init(void) {
     nrfx_timer_config_t timer_config = {
@@ -50,7 +54,7 @@ static void adc_init(void) {
         .interrupt_priority = 4,
         .low_power_mode = false,
     };
-    ret_code_t error_code = nrfx_saadc_init(&saadc_config, NULL); // Callback not used
+    ret_code_t error_code = nrfx_saadc_init(&saadc_config, saadc_event_callback); // Callback not used
     APP_ERROR_CHECK(error_code);
 
     nrf_saadc_channel_config_t pad_channel_config = NRFX_SAADC_DEFAULT_CHANNEL_CONFIG_SE(RES);
