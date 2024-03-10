@@ -15,10 +15,10 @@
 #include "microbit_v2.h"
 
 
-#define TRIG1 EDGE_P7
-#define ECHO1 EDGE_P8
-#define TRIG2 EDGE_P5
-#define ECHO2 EDGE_P6
+#define TRIG2 EDGE_P7
+#define ECHO2 EDGE_P8
+#define TRIG1 EDGE_P5
+#define ECHO1 EDGE_P6
 #define TRIG3 EDGE_P11
 #define ECHO3 EDGE_P12
 #define TRIG4 EDGE_P15
