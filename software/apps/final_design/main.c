@@ -43,7 +43,7 @@ static void gpio_init_main(void) {
   gpio_edge_init(TRIG1, ECHO1);
   gpio_edge_init(TRIG2, ECHO2);
   gpio_edge_init(TRIG3, ECHO3);
-  gpio_edge_init(TRIG4, ECHO4)
+  gpio_edge_init(TRIG4, ECHO4);
 }
 
 
