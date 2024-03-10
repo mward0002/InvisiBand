@@ -2,7 +2,7 @@
 
 #ifndef FORCE_SENSOR_H
 #define FORCE_SENSOR_H
-
+#include <stdbool.h>
 #include <stdint.h>
 
 // Initializes the necessary peripherals for the force sensor (Timer and ADC).
