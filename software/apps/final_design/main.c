@@ -100,7 +100,6 @@ int main(void) {
     //     nrf_delay_ms(50);
     // }
     stop_tone();
-    nrf_delay_ms(10);
     play_tone(tones1, 3, 15, distance1, 50);
     play_tone(tones1, 3, 15, distance2, 50);
     play_tone(tones1, 3, 15, distance3, 50);
