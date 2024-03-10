@@ -50,7 +50,7 @@ static void adc_init(void) {
         .interrupt_priority = 4,
         .low_power_mode = false,
     };
-    ret_code_t error_code = nrfx_saadc_init(&saadc_config, NULL); // Callback not used
+    ret_code_t error_code = nrfx_saadc_init(&saadc_config, saadc_event_callback); // Callback not used
     APP_ERROR_CHECK(error_code);
 
     nrf_saadc_channel_config_t pad_channel_config = NRFX_SAADC_DEFAULT_CHANNEL_CONFIG_SE(RES);
