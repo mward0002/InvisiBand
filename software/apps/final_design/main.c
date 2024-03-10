@@ -58,6 +58,9 @@ int main(void) {
   pwm_init(SOUND_PIN);
 
   uint32_t tones1[] = {440, 493, 523};
+  uint32_t tones2[] = {587, 659, 698};
+  uint32_t tones3[] = {784, 880, 988};
+  uint32_t tones4[] = {1047, 1175, 1319};
   // loop forever
   while (1) {
     // Don't put any code in here. Instead put periodic code in `sample_timer_callback()`
@@ -101,9 +104,9 @@ int main(void) {
     // }
     stop_tone();
     play_tone(tones1, 3, 15, distance1, 50);
-    play_tone(tones1, 3, 15, distance2, 50);
-    play_tone(tones1, 3, 15, distance3, 50);
-    play_tone(tones1, 3, 15, distance4, 50);
+    play_tone(tones2, 3, 15, distance2, 50);
+    play_tone(tones3, 3, 15, distance3, 50);
+    play_tone(tones4, 3, 15, distance4, 50);
     nrf_delay_ms(10);
   }
 }
