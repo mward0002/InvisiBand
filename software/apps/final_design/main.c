@@ -21,8 +21,8 @@
 #define ECHO2 EDGE_P6
 #define TRIG3 EDGE_P11
 #define ECHO3 EDGE_P12
-#define TRIG4 EDGE_P14
-#define ECHO4 EDGE_P15
+#define TRIG4 EDGE_P15
+#define ECHO4 EDGE_P16
 
 
 // Global variables
@@ -43,6 +43,7 @@ static void gpio_init_main(void) {
   gpio_edge_init(TRIG1, ECHO1);
   gpio_edge_init(TRIG2, ECHO2);
   gpio_edge_init(TRIG3, ECHO3);
+  gpio_edge_init(TRIG4, ECHO4)
 }
 
 
