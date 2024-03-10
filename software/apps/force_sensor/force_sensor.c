@@ -30,6 +30,10 @@ void force_sensor_init(void) {
 static void timer_event_handler_one(nrf_timer_event_t event_type, void* p_context) {
     // Not used, but required for timer initialization
 }
+static void saadc_event_callback(nrfx_saadc_evt_t const* _unused) {
+ // don't care about saadc events
+ // ignore this function
+}
 
 static void timer_init(void) {
     nrfx_timer_config_t timer_config = {
