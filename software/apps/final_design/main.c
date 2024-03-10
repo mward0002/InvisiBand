@@ -67,7 +67,7 @@ int main(void) {
     uint32_t distance4 = hr_sc04_measure_dist(TRIG4, ECHO4, NRF_TIMER_CC_CHANNEL3);
     if ((distance1 < 10) && (distance2 >= 10) && (distance3 >= 10) && (distance4 >= 10)){
             printf("Distance Sense 1: %ld cm \n", distance1);
-        nrf_delay_ms(50);
+        //nrf_delay_ms(50);
     }
     else if (distance2 < 10 && distance1 >= 10 && distance3 >= 10 && distance4 >= 10)
     {
@@ -99,13 +99,14 @@ int main(void) {
     //     nrf_delay_ms(50);
     // }
     else {
-        nrf_delay_ms(50);
+        //nrf_delay_ms(50);
     }
+    
     play_tone(tones1, 3, 15, distance1, 50);
     play_tone(tones1, 3, 15, distance2, 50);
     play_tone(tones1, 3, 15, distance3, 50);
     play_tone(tones1, 3, 15, distance4, 50);
-    nrf_delay_ms(50);
+    nrf_delay_ms(10);
   }
 }
 
