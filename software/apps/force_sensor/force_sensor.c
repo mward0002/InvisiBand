@@ -14,7 +14,7 @@
 #define ADC_PAD_CHANNEL 0
 const float VCC = 3.60;
 const float R_DIV = 10000.0;
-static nrfx_timer_t TIMER4 = NRFX_TIMER_INSTANCE(0);
+static nrfx_timer_t TIMER3 = NRFX_TIMER_INSTANCE(0);
 
 // Forward declarations of static functions
 static void timer_event_handler_one(nrf_timer_event_t event_type, void* p_context);
@@ -39,8 +39,8 @@ static void timer_init(void) {
         .interrupt_priority = 0,
         .p_context = NULL
     };
-    nrfx_timer_init(&TIMER4, &timer_config, timer_event_handler_one);
-    nrfx_timer_enable(&TIMER4);
+    nrfx_timer_init(&TIMER3, &timer_config, timer_event_handler_one);
+    nrfx_timer_enable(&TIMER3);
 }
 
 static void adc_init(void) {
