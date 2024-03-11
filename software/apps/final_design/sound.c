@@ -44,6 +44,11 @@ void play_tone(uint32_t freq[], uint8_t num_frequencies, uint32_t bias, uint32_t
     sequence_data[0] = duty_cycle;
     nrfx_pwm_simple_playback(&speaker_pwm, &pwm_sequence, 1, NRFX_PWM_FLAG_LOOP);
     printf("tone played: %d\n", freq[freq_index]);
+
+    // test for piano note
+    for (int i = 0; i < 1000000; i++) {
+        
+    }
 }
 
 void stop_tone(void) {
