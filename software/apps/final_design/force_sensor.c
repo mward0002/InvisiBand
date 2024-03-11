@@ -89,7 +89,7 @@ uint32_t measure_force(void) {
     if (force < 5) {
         force = 0;
     }
-    force = force / 32;
+    force = force / 20; // 32
     printf("scalar : %.2f g\n", force);
     return (uint32_t)force;
 }
