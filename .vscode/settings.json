@@ -1,5 +1,6 @@
 {
     "files.associations": {
-        "microbit_v2.h": "c"
+        "microbit_v2.h": "c",
+        "chrono": "c"
     }
 }

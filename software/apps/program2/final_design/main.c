@@ -56,17 +56,18 @@ int main(void) {
   pwm_init(SOUND_PIN);
 
   uint32_t tones1[] = {622};
-  uint32_t tones2[] = {659};
-  uint32_t tones3[] = {831};
-  uint32_t tones4[] = {932, 1047};
+  uint32_t tones2[] = {523};
+  uint32_t tones3[] = {261};
+  uint32_t tones4[] = {130};
 
   uint32_t bias = 0;
+  uint8_t volume = 50;
   // loop forever
   while (1) {
     // Don't put any code in here. Instead put periodic code in `sample_timer_callback()`
     //printf("in while loop \n");
     printf("1\n");
-    uint32_t distance1 = hr_sc04_measure_dist(TRIG1, ECHO1, NRF_TIMER_CC_CHANNEL0);
+    float distance1 = hr_sc04_measure_dist(TRIG1, ECHO1, NRF_TIMER_CC_CHANNEL0);
     uint32_t distance2 = hr_sc04_measure_dist(TRIG2, ECHO2, NRF_TIMER_CC_CHANNEL1);
     uint32_t distance3 = hr_sc04_measure_dist(TRIG3, ECHO3, NRF_TIMER_CC_CHANNEL2);
     uint32_t distance4 = hr_sc04_measure_dist(TRIG4, ECHO4, NRF_TIMER_CC_CHANNEL3);
@@ -104,13 +105,17 @@ int main(void) {
     //     printf("Distance Sense 1 2 and 3 together \n");
     //     nrf_delay_ms(50);
     // }
-    bias = measure_force();
+    //bias = measure_force();
+    bias = ((distance2 <= 100) ? distance2*2 : 0);
+    volume = 2 + (measure_force() * 4);
+    printf("Volume: %d\n", volume);
     stop_tone();
-    play_tone(tones1, 1, bias, 15, distance1, 50);
-    play_tone(tones2, 1, bias, 15, distance2, 50);
-    play_tone(tones3, 1, bias, 15, distance3, 50);
-    play_tone(tones4, 2, bias, 30, distance4, 50);
-    nrf_delay_ms(50);
+    //play_tone(tones1, 1, bias, 15, distance1, 50);
+    play_tone(tones1, 1, distance1*3, 50, distance1, volume);
+    play_tone(tones2, 1, distance2*3, 50, distance2, volume);
+    play_tone(tones3, 1, distance3*2, 50, distance3, volume);
+    play_tone(tones4, 1, distance4, 50, distance4, volume);
+    nrf_delay_ms(10);
   }
 }
 

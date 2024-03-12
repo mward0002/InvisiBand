@@ -104,13 +104,13 @@ int main(void) {
     //     printf("Distance Sense 1 2 and 3 together \n");
     //     nrf_delay_ms(50);
     // }
-    bias = measure_force();
+    bias = 2 * measure_force();
     stop_tone();
-    play_tone(tones1, 1, bias, 15, distance1, 50);
-    play_tone(tones2, 1, bias, 15, distance2, 50);
-    play_tone(tones3, 1, bias, 15, distance3, 50);
-    play_tone(tones4, 2, bias, 30, distance4, 50);
-    nrf_delay_ms(50);
+    play_tone(tones1, 1, bias, 15, distance1, 20);
+    play_tone(tones2, 1, bias, 15, distance2, 20);
+    play_tone(tones3, 1, bias, 15, distance3, 20);
+    play_tone(tones4, 2, bias, 30, distance4, 20);
+    nrf_delay_ms(20);
   }
 }
 
