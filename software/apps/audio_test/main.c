@@ -71,20 +71,20 @@ void play_tone(uint16_t frequency, uint8_t volume) {
 
     //NRF_PWM0->COUNTERTOP = 255;
 
-    //NRF_PWM0->COUNTERTOP = 1000000 / frequency;
+    NRF_PWM0->COUNTERTOP = 1000000 / frequency;
 
-    //uint32_t duty_cycle = ((NRF_PWM0->COUNTERTOP / 2) * volume) / 100;
-    //sequence_data[0] = duty_cycle;
-    //nrfx_pwm_simple_playback(&pwm0, &pwm_sequence, 1, NRFX_PWM_FLAG_LOOP);
+    uint32_t duty_cycle = ((NRF_PWM0->COUNTERTOP / 2) * volume) / 100;
+    sequence_data[0] = duty_cycle;
+    nrfx_pwm_simple_playback(&pwm0, &pwm_sequence, 1, NRFX_PWM_FLAG_LOOP);
 
-    for (int i = 0; i < wavetable_length; i++) {
+    /*for (int i = 0; i < wavetable_length; i++) {
         if (wavetable[i] < 250)
             sequence_data[i] = wavetable[i];
         else
             sequence_data[i] = 249;
-    }
+    }*/
 
-    nrfx_pwm_simple_playback(&pwm0, &pwm_sequence, 1, NRFX_PWM_FLAG_STOP);
+    //nrfx_pwm_simple_playback(&pwm0, &pwm_sequence, 1, NRFX_PWM_FLAG_STOP);
 }
 
 void stop_tone() {
@@ -133,7 +133,7 @@ int main(void) {
 
     play_tone(440, 10);
 
-    nrf_delay_ms(5000);
+    nrf_delay_ms(2000);
 
     stop_tone();
     

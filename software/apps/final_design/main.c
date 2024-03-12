@@ -56,24 +56,29 @@ int main(void) {
   printf("Board started!\n");
   
   gpio_init_main();
+  printf("GPIO initialized\n");
   hr_sc04_init();
+  printf("HR_SC04 initialized\n");
   force_sensor_init();
+  printf("Force sensor initialized\n");
   pwm_init(SOUND_PIN);
 
-  uint32_t tones1[] = {440, 493};
-  uint32_t tones2[] = {349, 391};
-  uint32_t tones3[] = {293, 329};
-  uint32_t tones4[] = {246, 261};
+  uint32_t tones1[] = {622};
+  uint32_t tones2[] = {659};
+  uint32_t tones3[] = {831};
+  uint32_t tones4[] = {932, 1047};
 
   uint32_t bias = 0;
   // loop forever
   while (1) {
     // Don't put any code in here. Instead put periodic code in `sample_timer_callback()`
     //printf("in while loop \n");
+    printf("1\n");
     uint32_t distance1 = hr_sc04_measure_dist(TRIG1, ECHO1, NRF_TIMER_CC_CHANNEL0);
     uint32_t distance2 = hr_sc04_measure_dist(TRIG2, ECHO2, NRF_TIMER_CC_CHANNEL1);
     uint32_t distance3 = hr_sc04_measure_dist(TRIG3, ECHO3, NRF_TIMER_CC_CHANNEL2);
     uint32_t distance4 = hr_sc04_measure_dist(TRIG4, ECHO4, NRF_TIMER_CC_CHANNEL3);
+    printf("2\n");
     if ((distance1 < 10) && (distance2 >= 10) && (distance3 >= 10) && (distance4 >= 10)){
             printf("Distance Sense 1: %ld cm \n", distance1);
         //nrf_delay_ms(50);
@@ -109,10 +114,10 @@ int main(void) {
     // }
     bias = measure_force();
     stop_tone();
-    play_tone(tones1, 2, bias, 16, distance1, 50);
-    play_tone(tones2, 2, bias, 16, distance2, 50);
-    play_tone(tones3, 2, bias, 16, distance3, 50);
-    play_tone(tones4, 2, bias, 16, distance4, 50);
+    play_tone(tones1, 1, bias, 15, distance1, 50);
+    play_tone(tones2, 1, bias, 15, distance2, 50);
+    play_tone(tones3, 1, bias, 15, distance3, 50);
+    play_tone(tones4, 2, bias, 30, distance4, 50);
     nrf_delay_ms(50);
   }
 }
