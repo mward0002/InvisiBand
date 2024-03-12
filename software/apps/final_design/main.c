@@ -36,10 +36,6 @@ static nrfx_timer_t TIMER4 = NRFX_TIMER_INSTANCE(0);
 // Function prototypes
 static void gpio_init_main(void);
 
-
-
-
-
 static void gpio_init_main(void) {
   // Initialize pins
   gpio_edge_init(TRIG1, ECHO1);
@@ -47,10 +43,6 @@ static void gpio_init_main(void) {
   gpio_edge_init(TRIG3, ECHO3);
   gpio_edge_init(TRIG4, ECHO4);
 }
-
-
-
-
 
 int main(void) {
   printf("Board started!\n");
